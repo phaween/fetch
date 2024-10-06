@@ -2,14 +2,20 @@ import * as cheerio from "cheerio";
 import { Console } from "console";
 import * as fs from "fs";
 
-export async function processHtml(buffer : Buffer, filepath : string) : Promise<string[]>{
+export interface IFileBuffer
+{
+    data : Buffer;
+    filepath : string;
+}
+
+export async function processHtml(params : IFileBuffer) : Promise<string[]>{
     return new Promise((resolve, reject) => {
         let imageCount = 0;        
         let linkCount = 0;
         let images : string[] = [];
 
         try{
-            const $ = cheerio.load(buffer);
+            const $ = cheerio.load(params.data);
             $("img").each((index, element) =>{
                 imageCount++;
                 const oldSrc = $(element).attr("src")
@@ -22,11 +28,10 @@ export async function processHtml(buffer : Buffer, filepath : string) : Promise<
                 linkCount++;
             });
 
-            fs.writeFileSync(filepath, $.html());
+            fs.writeFileSync(params.filepath, $.html());
         }
         catch(error)
         {
-            console.log(error);
             reject(error);
         }
 

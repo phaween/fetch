@@ -16,7 +16,7 @@ import { existsSync, mkdirSync } from "fs";
     try
     {
       console.log(`site: ${arg}`);
-      await processWebPage(baseDir, arg);
+      await processWebPage({ baseDir, urlString: arg });
       const now = new Date();
       console.log(`last_fetch: ${now}`);
     }
