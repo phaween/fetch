@@ -1,41 +1,29 @@
 
-import * as fs from "fs";
 import axios from 'axios';
-import * as http from './lib/httpRequest'
-import * as processHtml from './lib/processHtml'
 import path from "path";
-import { buffer } from "stream/consumers";
+import { processWebPage } from "./lib/processWebPage";
+import { existsSync, mkdirSync } from "fs";
 
-var baseDir = path.resolve(__dirname, '..') + '/data';
 
-if (!fs.existsSync(baseDir)){
-    fs.mkdirSync(baseDir);
-}
+  var baseDir = path.resolve(__dirname, '..') + '/data';
 
-const args = process.argv.slice(2);
-args.forEach(arg => {
-  const url = new URL(arg);
-  console.log(`site: ${arg}`);
-  http.downloadHtml(arg).then((response) =>
+  if (!existsSync(baseDir)){
+      mkdirSync(baseDir);
+  }
+
+  const args = process.argv.slice(2);
+  args.forEach(async arg => {
+    try
     {
-      const url = new URL(arg);
-      const filename = url.hostname + '.html'
-      console.log(filename);
-      processHtml.processHtml(response, baseDir + '/' + filename).then((images) =>
-        images.forEach((image) => {
-          const imageUrl = image.startsWith('http') ? image : url + image;
-          http.downloadImage(imageUrl).then((buffer) =>{
-            const imgFilename = image.split('/').pop();
-            fs.writeFileSync(baseDir + '/' + imgFilename, buffer);
-          })
-        })
-      )
-
-      console.log(`last_fetch: ${new Date()}`);
-    })
-    .catch((error) => {
+      console.log(`site: ${arg}`);
+      await processWebPage(baseDir, arg);
+      const now = new Date();
+      console.log(`last_fetch: ${now}`);
+    }
+    catch(error)
+    {
       if (!axios.isAxiosError(error)) {
         console.log(error);
       }
-    });
-});
+    }
+  });

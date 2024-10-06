@@ -27,6 +27,7 @@ export async function processHtml(buffer : Buffer, filepath : string) : Promise<
         catch(error)
         {
             console.log(error);
+            reject(error);
         }
 
         console.log(`num_links: ${linkCount}`);
