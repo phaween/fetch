@@ -21,4 +21,4 @@ VOLUME /app/data
 COPY --from=build /app/dist ./dist
 
 # Use ENTRYPOINT to define the executable
-ENTRYPOINT ["node", "dist/index.js"]
+ENTRYPOINT ["node", "dist/src/index.js"]

@@ -1,5 +1,4 @@
 import * as cheerio from "cheerio";
-import { Console } from "console";
 import * as fs from "fs";
 
 export interface IFileBuffer

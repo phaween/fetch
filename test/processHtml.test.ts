@@ -1,4 +1,3 @@
-import { each } from "cheerio/dist/commonjs/api/traversing";
 import { processHtml } from "../src/lib/processHtml";
 
 const fs = jest.createMockFromModule("fs");

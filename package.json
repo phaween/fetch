@@ -1,12 +1,11 @@
 {
   "name": "fetch",
   "version": "1.0.0",
-  "main": "dist/index.js",
+  "main": "dist/src/index.js",
   "dependencies": {
     "@types/cheerio": "^0.22.35",
     "axios": "^1.7.7",
     "cheerio": "^1.0.0",
-    "htmlparser2": "^9.1.0",
     "typescript": "^5.6.2",
     "undici-types": "^6.19.8"
   },
